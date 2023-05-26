@@ -1,91 +1,58 @@
-import type { NextPage } from "next";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import WarningIcon from '@mui/icons-material/Warning';
-import CancelIcon from '@mui/icons-material/Cancel';
-
-import AppHead from "src/components/AppHead";
 import AppBar from "src/components/AppBar";
+import Services from "src/components/Services";
 
-const regions = [
-    { id: 1, name: "Cab Teh-1" },
-    { id: 2, name: "Cab Teh-2" },
-    { id: 3, name: "SnappGroup" }
-];
+enum Status {
+    LOADING = 'loading',
+    SUCCESS = 'success',
+    FAILURE = 'failure',
+}
 
-const services = [
-    { id: 1, name: "PaaS" },
-    { id: 2, name: "IaaS" },
-    { id: 3, name: "Object Storage (S3)" },
-    { id: 4, name: "Container Registry" },
-    { id: 5, name: "Service LoadBalancer (L4)" },
-    { id: 6, name: "Ingress (L7)" },
-    { id: 7, name: "Proxy" },
-    { id: 8, name: "Monitoring" },
-    { id: 9, name: "Logging" },
-    { id: 10, name: "Traffic observability (Hubble)" },
-    { id: 11, name: "ArgoCD" },
-    { id: 12, name: "ArgoWF" },
+const Home = () => {
+    const [status, setStatus] = useState<Status>(Status.LOADING);
+    const [services, setServices] = useState([]);
 
-];
+    const fetchServices = async () => {
+        try {
+            setStatus(Status.LOADING)
 
-const status = [
-    { region: 1, service: 1, operational: true },
-    { region: 1, service: 2, operational: false },
-    { region: 1, service: 3, operational: true },
-    { region: 2, service: 1, operational: true },
-    { region: 2, service: 2, operational: true },
-    { region: 2, service: 3, operational: false },
-    { region: 3, service: 1, operational: false },
-    { region: 3, service: 2, operational: true },
-    { region: 3, service: 3, operational: false }
-];
+            const req = await fetch('http://127.0.0.1:8080/api/v1/services');
+            if (req.status != 200) {
+                setStatus(Status.FAILURE)
+                return setServices([]);
+            }
 
-const Home: NextPage = () => {
-    const [data, setData] = useState(status);
+            setStatus(Status.SUCCESS)
+            const data = await req.json();
+            return setServices(data.services);
+        } catch (err) {
+            setStatus(Status.FAILURE)
+            console.log(err)
+        }
+    };
+
+    useEffect(() => { fetchServices() }, [])
+
+    const handleClick = (event: any) => {
+        event.preventDefault();
+        fetchServices();
+    };
 
     return (
         <>
-            <AppHead />
-            <AppBar />
-            <div className="App">
-                <hr />
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Service</th>
-                            {regions.map(region => (
-                                <th key={region.id}>{region.name}</th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {services.map(service => (
-                            <tr key={service.id}>
-                                <td>{service.name}</td>
-                                {regions.map(region => {
-                                    const serviceStatus = data.find(
-                                        item => item.region === region.id && item.service === service.id
-                                    );
-
-                                    return (
-                                        <td key={region.id}>
-                                            {serviceStatus && serviceStatus.operational ? (
-                                                <span role="img" aria-label="operational">
-                                                    <WarningIcon className="warning-icon" />
-                                                </span>
-                                            ) : (
-                                                <CheckCircleIcon className="operational-icon" />
-                                            )}
-                                        </td>
-                                    );
-                                })}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            <AppBar onClick={handleClick} />
+            {status === Status.LOADING && (
+                <p style={{ textAlign: "center" }}>Loading...</p>
+            )}
+            {status === Status.SUCCESS &&
+                <div style={{ padding: "15px" }}>
+                    <Services services={services} />
+                </div>
+            }
+            {status === Status.FAILURE && (
+                <p style={{ textAlign: "center" }}>FAILURE</p>
+            )}
         </>
     );
 }
