@@ -17,7 +17,7 @@ const Home = () => {
         try {
             setStatus(Status.LOADING)
 
-            const req = await fetch('http://127.0.0.1:8080/api/v1/services');
+            const req = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/api/v1/services');
             if (req.status != 200) {
                 setStatus(Status.FAILURE)
                 return setServices([]);
