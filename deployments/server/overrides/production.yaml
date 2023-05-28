@@ -9,7 +9,7 @@ resources:
     memory: 1Gi
 
 ingress:
-  enabled: false
+  enabled: true
   annotations: {}
   hosts:
     - host: snappcloud-status-frontend.mohammadne-playground.apps.private.okd4.teh-1.snappcloud.io
