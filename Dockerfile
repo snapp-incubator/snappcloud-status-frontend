@@ -16,9 +16,7 @@ COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN  cat .env && \
-     npm run build && \
-     npm prune --omit dev --omit optional --force
+RUN npm run build
 
 # ---------------------------------------> Runner
 
