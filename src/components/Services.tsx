@@ -8,13 +8,6 @@ const regions = [
     { id: 3, name: "SnappGroup" }
 ];
 
-const statuses = new Map<number, any>([
-    [1, <CheckCircleIcon className="operational-icon" />],
-    [2, <WarningIcon className="warning-icon" />],
-    [3, <CancelIcon className="outage-icon" />],
-    [4, "Unknown"],
-])
-
 type Service = {
     name: string,
     status: any
@@ -42,8 +35,16 @@ const Services: React.FC<Props> = ({ services }) => (
                         {
                             regions.map(region => {
                                 const statusId: number = service.status[region.id]
-                                const statusIcon = statuses.get(statusId)
-                                return <td key={region.id}>{statusIcon}</td>;
+
+                                if (statusId === 1) {
+                                    return <td key={region.id}><CheckCircleIcon className="operational-icon" /></td>;
+                                } else if (statusId === 2) {
+                                    return <td key={region.id}> <WarningIcon className="warning-icon" /></td>;
+                                } else if (statusId === 3) {
+                                    return <td key={region.id}> <CancelIcon className="outage-icon" /></td>;
+                                }
+
+                                return <td key={region.id}><p>Unknown</p></td>;
                             })
                         }
                     </tr>
