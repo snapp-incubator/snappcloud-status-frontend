@@ -7,3 +7,11 @@ resources:
   requests:
     cpu: 1000m
     memory: 1Gi
+
+ingress:
+  enabled: false
+  annotations: {}
+  hosts:
+    - host: snappcloud-status-frontend.mohammadne-playground.apps.private.okd4.teh-1.snappcloud.io
+      router: private
+      name: private

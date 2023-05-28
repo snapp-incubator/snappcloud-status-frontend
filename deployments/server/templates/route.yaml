@@ -1,0 +1,22 @@
+---
+{{- if .Values.ingress.enabled -}}
+  {{- range .Values.ingress.hosts }}
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ include "snappcloud-status-frontend.fullname" $ }}-{{ .name }}
+  labels:
+    router: {{ .router }}
+    {{- include "snappcloud-status-frontend.labels" $ | nindent 4 }}
+spec:
+  host: {{ .host | quote }}
+  port:
+    targetPort: {{ $.Values.service.port }}
+  to:
+    kind: Service
+    name: {{ include "snappcloud-status-frontend.fullname" $ }}
+    weight: 100
+  wildcardPolicy: None
+  {{- end }}
+  {{- end }}

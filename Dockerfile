@@ -18,6 +18,9 @@ ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN npm run build
 
+# remove dev dependencies
+RUN npm prune --production
+
 # ---------------------------------------> Runner
 
 FROM node:18-alpine AS runner
@@ -26,11 +29,12 @@ WORKDIR /app
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/next.config.js ./
+
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 

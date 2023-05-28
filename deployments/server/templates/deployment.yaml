@@ -37,10 +37,6 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: {{ .Values.service.protocol }}
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           envFrom:
