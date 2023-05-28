@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "snappcloud-status-frontend.fullname" . }}
+  labels:
+    {{- include "snappcloud-status-frontend.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "snappcloud-status-frontend.selectorLabels" . | nindent 4 }}
