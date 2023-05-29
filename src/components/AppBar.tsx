@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/Warning';
@@ -6,11 +7,14 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 import Logo from "./Logo";
 
-type Props = {
-    onClick: (event: any) => void;
-};
 
-const AppBar: React.FC<Props> = ({ onClick }) => {
+const AppBar: React.FC = () => {
+    const router = useRouter();
+
+    const handleRefresh = () => {
+        router.reload();
+    };
+
     return (
         <>
             <div style={{ backgroundColor: "black" }}>
@@ -35,7 +39,7 @@ const AppBar: React.FC<Props> = ({ onClick }) => {
                             <p>Service Outage</p>
                         </div>
                     </div>
-                    <button onClick={onClick}>REFETCH SERVICES</button>
+                    <button onClick={handleRefresh}>REFETCH SERVICES</button>
                 </div>
             </div>
         </>

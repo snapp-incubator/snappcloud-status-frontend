@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-
 import AppBar from "src/components/AppBar";
 import Services from "src/components/Services";
 
@@ -9,39 +7,10 @@ enum Status {
     FAILURE = 'failure',
 }
 
-const Home = () => {
-    const [status, setStatus] = useState<Status>(Status.LOADING);
-    const [services, setServices] = useState([]);
-
-    const fetchServices = async () => {
-        try {
-            setStatus(Status.LOADING)
-
-            const req = await fetch(process.env.BACKEND_URL + '/api/v1/services');
-            if (req.status != 200) {
-                setStatus(Status.FAILURE)
-                return setServices([]);
-            }
-
-            setStatus(Status.SUCCESS)
-            const data = await req.json();
-            return setServices(data.services);
-        } catch (err) {
-            setStatus(Status.FAILURE)
-            console.log(err)
-        }
-    };
-
-    useEffect(() => { fetchServices() }, [])
-
-    const handleClick = (event: any) => {
-        event.preventDefault();
-        fetchServices();
-    };
-
+const Home = ({ status, services }: { status: Status, services: Array<any> }) => {
     return (
         <>
-            <AppBar onClick={handleClick} />
+            <AppBar />
             {status === Status.LOADING && (
                 <p style={{ textAlign: "center" }}>Loading...</p>
             )}
@@ -55,6 +24,27 @@ const Home = () => {
             )}
         </>
     );
+}
+
+export const getServerSideProps = async () => {
+    const failure = { status: Status.FAILURE, services: [] }
+
+    try {
+        const req = await fetch(process.env.BACKEND_URL + '/api/v1/services');
+        if (req.status != 200) {
+            return { props: failure };
+        }
+
+        const data = await req.json();
+        return {
+            props: {
+                status: Status.SUCCESS,
+                services: data.services,
+            }
+        };
+    } catch (_) {
+        return { props: failure };
+    }
 }
 
 export default Home;
