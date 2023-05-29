@@ -11,4 +11,3 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: development
-      NEXT_PUBLIC_BACKEND_URL: http://127.0.0.1:8080

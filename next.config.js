@@ -9,6 +9,11 @@ module.exports = {
     },
     output: 'standalone',
     async rewrites() {
-        return []
+        return [
+            {
+                source: '/api/:path*',
+                destination: 'http://snappcloud-status-backend-server/:path*',
+            },
+        ]
     }
 };
