@@ -13,4 +13,7 @@ spec:
     name: {{ include "snappcloud-status-frontend.fullname" $ }}
     weight: 100
   wildcardPolicy: None
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
 {{- end }}
