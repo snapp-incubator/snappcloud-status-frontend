@@ -2,7 +2,7 @@
 
 const is_production = process.env.NODE_ENV === 'production';
 const backend_url = is_production ?
-    "http://snappcloud-status-backend-server:8080" :
+    "http://spcld-status-backend-snappcloud-status-backend:8080" :
     "http://127.0.0.1:8080";
 
 module.exports = {
