@@ -41,13 +41,11 @@ service:
   protocol: TCP
   port: 3000
 
-ingress:
+route:
   enabled: true
   annotations: {}
-  hosts:
-    - host: snappcloud-status-frontend.mohammadne-playground.apps.private.okd4.teh-1.snappcloud.io
-      router: private
-      name: private
+  host: status.snappcloud.io
+  tls: {}
 
 resources:
   limits:
