@@ -36,7 +36,7 @@ const AppBar: React.FC = () => {
                         </div>
                         <div className="status-icon">
                             <CancelIcon className="outage-icon transform-icon" />
-                            <p>Service Outage</p>
+                            <p>Outage</p>
                         </div>
                     </div>
                     <button onClick={handleRefresh}>REFETCH SERVICES</button>
