@@ -3,9 +3,9 @@ import WarningIcon from '@mui/icons-material/Warning';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 const regions = [
-    { id: 1, name: "Cab Teh-1" },
-    { id: 2, name: "Cab Teh-2" },
-    { id: 3, name: "SnappGroup" }
+    { id: "teh1", name: "Cab Teh-1" },
+    { id: "teh2", name: "Cab Teh-2" },
+    { id: "snappgroup", name: "SnappGroup" }
 ];
 
 type Service = {
@@ -34,13 +34,13 @@ const Services: React.FC<Props> = ({ services }) => (
                         <td>{service.name}</td>
                         {
                             regions.map(region => {
-                                const statusId: number = service.status[region.id]
+                                const status: string = service.status[region.id]
 
-                                if (statusId === 1) {
+                                if (status === "operational") {
                                     return <td key={region.id}><CheckCircleIcon className="operational-icon" /></td>;
-                                } else if (statusId === 2) {
+                                } else if (status === "disruption") {
                                     return <td key={region.id}> <WarningIcon className="warning-icon" /></td>;
-                                } else if (statusId === 3) {
+                                } else if (status === "outage") {
                                     return <td key={region.id}> <CancelIcon className="outage-icon" /></td>;
                                 }
 
