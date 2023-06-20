@@ -1,50 +1,28 @@
 import AppBar from "src/components/AppBar";
 import Services from "src/components/Services";
 
-enum Status {
-    LOADING = 'loading',
-    SUCCESS = 'success',
-    FAILURE = 'failure',
-}
+// const regions = [
+//     { id: "teh1", name: "Cab Teh-1" },
+//     { id: "teh2", name: "Cab Teh-2" },
+//     { id: "snappgroup", name: "SnappGroup" }
+// ];
 
-const Home = ({ status, services }: { status: Status, services: Array<any> }) => {
+const Home = () => {
     return (
         <>
             <AppBar />
-            {status === Status.LOADING && (
-                <p style={{ textAlign: "center" }}>Loading...</p>
-            )}
-            {status === Status.SUCCESS &&
-                <div style={{ padding: "15px" }}>
-                    <Services services={services} />
-                </div>
-            }
-            {status === Status.FAILURE && (
-                <p style={{ textAlign: "center" }}>FAILURE</p>
-            )}
+            <div style={{ padding: "15px" }}>
+                {/* process.env.BACKEND_URL */}
+                <Services title="Cab Teh-1" backend="localhost:8080" />
+            </div>
+            <div style={{ padding: "15px" }}>
+                <Services title="Cab Teh-2" backend="localhost:8080" />
+            </div>
+            <div style={{ padding: "15px" }}>
+                <Services title="SnappGroup" backend="localhost:8080" />
+            </div>
         </>
     );
-}
-
-export const getServerSideProps = async () => {
-    const failure = { status: Status.FAILURE, services: [] }
-
-    try {
-        const req = await fetch(process.env.BACKEND_URL + '/api/v1/services');
-        if (req.status != 200) {
-            return { props: failure };
-        }
-
-        const data = await req.json();
-        return {
-            props: {
-                status: Status.SUCCESS,
-                services: data.services,
-            }
-        };
-    } catch (_) {
-        return { props: failure };
-    }
 }
 
 export default Home;

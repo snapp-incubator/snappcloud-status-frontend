@@ -1,58 +1,94 @@
+import React, { useState, useEffect } from "react";
+
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/Warning';
 import CancelIcon from '@mui/icons-material/Cancel';
 
-const regions = [
-    { id: "teh1", name: "Cab Teh-1" },
-    { id: "teh2", name: "Cab Teh-2" },
-    { id: "snappgroup", name: "SnappGroup" }
-];
+enum Status {
+    LOADING = 'loading',
+    SUCCESS = 'success',
+    FAILURE = 'failure',
+}
 
 type Service = {
     name: string,
-    status: any
+    status: string
 }
 
-type Props = {
-    services: Service[];
-};
+const Services = ({ title, backend }: { title: string, backend: string }) => {
+    const [status, setStatus] = useState<Status>(Status.LOADING);
+    const [services, setServices] = useState<Array<Service>>([]);
 
-const Services: React.FC<Props> = ({ services }) => (
-    <table className="table">
-        <thead>
-            <tr className="table-dark">
-                <th>Service</th>
-                {
-                    regions.map(region => <th key={region.id}>{region.name}</th>)
+    useEffect(() => {
+        async function getServices() {
+            try {
+                const req = await fetch(backend + '/api/v1/services');
+                if (req.status != 200) {
+                    setStatus(Status.FAILURE);
+                    setServices([]);
+                    return;
                 }
-            </tr>
-        </thead>
-        <tbody>
-            {
-                services.map((service, index) => (
-                    <tr key={index}>
-                        <td>{service.name}</td>
+
+                const data = await req.json();
+                setStatus(Status.FAILURE);
+                setServices(data.services);
+                return;
+            } catch (e) {
+                console.log(e)
+                setStatus(Status.FAILURE);
+                setServices([]);
+                return;
+            }
+        }
+
+        getServices()
+    }, []);
+
+    return <>
+        <h3>{title}</h3>
+        {status === Status.LOADING && (
+            <p style={{ textAlign: "center" }}>Loading...</p>
+        )}
+        {status === Status.SUCCESS &&
+            <table className="table">
+                {/* <thead>
+                    <tr className="table-dark">
+                        <th>Service</th>
                         {
-                            regions.map(region => {
-                                const status: string = service.status[region.id]
-
-                                if (status === "operational") {
-                                    return <td key={region.id}><CheckCircleIcon className="operational-icon" /></td>;
-                                } else if (status === "disruption") {
-                                    return <td key={region.id}> <WarningIcon className="warning-icon" /></td>;
-                                } else if (status === "outage") {
-                                    return <td key={region.id}> <CancelIcon className="outage-icon" /></td>;
-                                }
-
-                                return <td key={region.id}><p>Unknown</p></td>;
-                            })
+                            regions.map(region => <th key={region.id}>{region.name}</th>)
                         }
                     </tr>
-                ))
-            }
-        </tbody>
-    </table>
-);
+                </thead> */}
+                <tbody>
+                    {
+                        services.map((service) => {
+                            const status: string = service.status
+                            var result // TODO: add result type
 
+                            if (status === "operational") {
+                                result = <td><CheckCircleIcon className="operational-icon" /></td>;
+                            } else if (status === "disruption") {
+                                result = <td> <WarningIcon className="warning-icon" /></td>;
+                            } else if (status === "outage") {
+                                result = <td><CancelIcon className="outage-icon" /></td>;
+                            } else {
+                                result = <td><p>Unknown</p></td>
+                            }
+
+                            return <>
+                                <td>{service.name}</td>
+                                result
+                            </>
+                        }
+                        )
+                    }
+                </tbody>
+            </table>
+        }
+        {status === Status.FAILURE && (
+            <p style={{ textAlign: "center" }}>FAILURE</p>
+        )}
+    </>
+};
 
 export default Services;
