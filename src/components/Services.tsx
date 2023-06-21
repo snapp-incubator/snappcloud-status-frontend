@@ -30,11 +30,10 @@ const Services = ({ title, backend }: { title: string, backend: string }) => {
                 }
 
                 const data = await req.json();
-                setStatus(Status.FAILURE);
+                setStatus(Status.SUCCESS);
                 setServices(data.services);
                 return;
             } catch (e) {
-                console.log(e)
                 setStatus(Status.FAILURE);
                 setServices([]);
                 return;
@@ -45,23 +44,15 @@ const Services = ({ title, backend }: { title: string, backend: string }) => {
     }, []);
 
     return <>
-        <h3>{title}</h3>
+        <h3 className="service-head">{title}</h3>
         {status === Status.LOADING && (
             <p style={{ textAlign: "center" }}>Loading...</p>
         )}
         {status === Status.SUCCESS &&
             <table className="table">
-                {/* <thead>
-                    <tr className="table-dark">
-                        <th>Service</th>
-                        {
-                            regions.map(region => <th key={region.id}>{region.name}</th>)
-                        }
-                    </tr>
-                </thead> */}
                 <tbody>
                     {
-                        services.map((service) => {
+                        services.map((service, index) => {
                             const status: string = service.status
                             var result // TODO: add result type
 
@@ -75,10 +66,10 @@ const Services = ({ title, backend }: { title: string, backend: string }) => {
                                 result = <td><p>Unknown</p></td>
                             }
 
-                            return <>
+                            return <tr key={index}>
                                 <td>{service.name}</td>
-                                result
-                            </>
+                                {result}
+                            </tr>
                         }
                         )
                     }

@@ -29,6 +29,19 @@ body {
   color: rgb(236, 1, 1);
 }
 
+.service-head {
+  color: white;
+  border: 1px solid #ddd;
+  text-align: center;
+  padding: 8px;
+  background-color: #777;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+
 /* TABLE */
 
 table {
