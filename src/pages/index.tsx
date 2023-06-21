@@ -3,9 +3,9 @@ import Services from "src/components/Services";
 
 // process.env.BACKEND_URL
 const regions = [
-    { name: "Cab Teh-1", url: "http://127.0.0.1:8080" },
-    { name: "Cab Teh-2", url: "http://127.0.0.1:8080" },
-    { name: "SnappGroup", url: "http://127.0.0.1:8080" }
+    { name: "Cab Teh-1", url: process.env.TEH1_BACKEND_URL! },
+    { name: "Cab Teh-2", url: process.env.TEH2_BACKEND_URL! },
+    { name: "SnappGroup", url: process.env.SNAPPGROUP_BACKEND_URL! }
 ];
 
 const Home = () => {
