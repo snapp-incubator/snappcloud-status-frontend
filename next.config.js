@@ -11,7 +11,7 @@ module.exports = {
             "http://snappcloud-status-backend.snappcloud-monitoring.apps.private.okd4.teh-2.snappcloud.io" :
             "http://127.0.0.1:8080",
         SNAPPGROUP_BACKEND_URL: is_production ?
-            "http://snappcloud-status-backend.snappcloud-monitoring.apps.private.okd4.teh-1.snappcloud.io" :
+            "http://snappcloud-status-backend.snappcloud-monitoring.apps.private.snappgroup.teh-1.snappcloud.io" :
             "http://127.0.0.1:8080",
     },
     output: 'standalone',
