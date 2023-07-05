@@ -12,6 +12,3 @@ module.exports = {
   },
   output: 'standalone',
 };
-
-
-
