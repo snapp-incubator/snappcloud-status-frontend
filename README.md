@@ -1,4 +1,47 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Service Health
+
+This page provides status information on the services that are part of SnappCloud. It allows users to check the current status of the listed services. If you encounter an issue that is not listed here, please contact our Support team for assistance.
+
+## Contents
+
+- [Introduction](#introduction)
+- [Service Status](#service-status)
+- [Environment Variables](#environment-variables)
+- [Launching the Code](#launching-the-code)
+- [Contact](#contact)
+- [Additional Resources](#additional-resources)
+
+## Introduction
+
+The Service Health page is designed to keep users informed about the status of the services offered by SnappCloud. It serves as a central location to monitor any ongoing issues or disruptions in service. By regularly checking this page, users can stay updated and be aware of any potential impacts on their workflows or applications.
+
+## Service Status
+
+The current status of each service is displayed on this page. It indicates whether the service is operating normally or experiencing any known issues or outages. The list is continuously updated to reflect the most recent information.
+
+## Environment Variables
+
+The following environment variables are used in the SnappCloud services:
+
+- `TEH1_BACKEND_URL`: The URL for TEH1 backend.
+- `TEH2_BACKEND_URL`: The URL for TEH2 backend.
+- `SNAPPGROUP_BACKEND_URL`: The URL for SNAPPGROUP backend.
+
+Make sure to properly configure these environment variables in your deployment or application setup. To set up the environment variables, you can create a file named `.env` in the root directory of your project. You can use the provided `.env.example` file as a template. Rename the `.env.example` file to `.env` and update the values of the environment variables as required.
+
+## Launching the Code
+
+To launch the code and start the SnappCloud services, ensure that you have set up the necessary environment variables in the `.env` file. Then, follow the instructions provided in the documentation to run the code and deploy the services.
+
+## Contact
+
+If you encounter an issue that is not listed on the Service Health page or require further assistance, please contact our Support team. They will promptly address your concerns and provide the necessary support to resolve any service-related problems.
+
+- Support Team: [https://docs.snappcloud.io/docs/support](https://docs.snappcloud.io/docs/support)
+
+## Additional Resources
+
+For additional information about the services offered by SnappCloud, please refer to our comprehensive documentation available at [https://docs.snappcloud.io/](https://docs.snappcloud.io/). The documentation covers various aspects of our services, including setup instructions, troubleshooting guides, and best practices.
 
 ## Getting Started
 
@@ -14,25 +57,9 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
+## Learn More about this Framework
 
 To learn more about Next.js, take a look at the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
