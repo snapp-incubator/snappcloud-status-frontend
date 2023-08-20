@@ -51,8 +51,9 @@ table {
 
 th,
 td {
-  border: 1px solid #ddd;
+  border: 1px solid #bdbdbd;
   padding: 8px;
+  color: #333;
   text-align: center;
 }
 
@@ -61,9 +62,22 @@ td {
 }
 
 .table tr:nth-child(odd) {
-  background-color: #333;
+  background-color: #e6e6e6;
 }
 
 .table tr:nth-child(even) {
-  background-color: #444;
+  background-color: #dbdbdb;
+}
+
+@media (prefers-color-scheme: dark) {
+  .table tr:nth-child(even) {
+    background-color: #444;
+  }
+  .table tr:nth-child(odd) {
+    background-color: #333;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    color: #fff;
+  }
 }
