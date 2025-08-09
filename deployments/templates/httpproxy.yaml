@@ -1,0 +1,27 @@
+---
+{{- if .Values.httpproxy.enabled -}}
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+    name: {{ include "snappcloud-status-frontend.fullname" $ }}
+spec:
+  httpVersions:
+  - http/1.1
+  ingressClassName: private
+  routes:
+  - enableWebsockets: true
+    loadBalancerPolicy:
+      strategy: RoundRobin
+    services:
+    - name: {{ include "snappcloud-status-frontend.fullname" $ }}
+      port: {{ $.Values.service.port }}
+      weight: 100
+    timeoutPolicy:
+      idleConnection: 15s
+      response: 30s
+  virtualhost:
+    fqdn: {{ .Values.httpproxy.fqdn | quote }}
+    tls:
+      enableFallbackCertificate: true
+      secretName: openshift-ingress/letsencrypt
+{{- end }}

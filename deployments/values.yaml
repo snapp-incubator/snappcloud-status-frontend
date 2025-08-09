@@ -42,10 +42,13 @@ service:
   port: 3000
 
 route:
-  enabled: true
+  enabled: false
   annotations: {}
   host: status.snappcloud.io
   tls: {}
+httpproxy:
+  enabled: true
+  fqdn: status.snappcloud.io
 
 resources:
   limits:
